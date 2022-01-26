@@ -1,0 +1,35 @@
+{
+  "name": "@jobscale/fetch",
+  "version": "0.0.1",
+  "description": "@jobscale/fetch",
+  "keywords": [
+    "fetch"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jobscale/fetch.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "pretest": "npm run lint",
+    "test": "jest --runInBand --coverage --collectCoverage"
+  },
+  "pre-commit": [
+    "test"
+  ],
+  "author": "jobscale <jobscale@users.noreply.github.com>",
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^25.7.0",
+    "jest": "^27.4.7",
+    "pre-commit": "^1.2.2"
+  },
+  "dependencies": {
+    "axios": "^0.25.0"
+  },
+  "license": "MIT"
+}
