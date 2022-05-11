@@ -4,7 +4,8 @@ const { info } = console;
 
 describe('test fetch', () => {
   const action = () => {
-    const url = 'https://inet-ip.info/ip';
+    // const url = 'https://inet-ip.info/ip';
+    const url = 'https://ipinfo.io/ip';
     const regexp = /^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$/;
     return fetch(url)
     .then(res => ({ ip: res.data, regexp }));
