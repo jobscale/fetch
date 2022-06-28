@@ -1,23 +1,21 @@
 const fetch = require('..');
 
-const { info } = console;
+const logger = console;
+const regexp = /^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$/;
 
 describe('test fetch', () => {
-  const action = () => {
-    // const url = 'https://inet-ip.info/ip';
-    const url = 'https://ipinfo.io/ip';
-    const regexp = /^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$/;
-    return fetch(url)
-    .then(res => ({ ip: res.data, regexp }));
-  };
+  const urls = [
+    'https://inet-ip.info/ip',
+    'https://ipinfo.io/ip',
+    'https://ifconfig.io',
+  ];
 
   describe('strate fetch', () => {
-    it('toMatch prompt', async () => {
-      await action()
-      .then(({ ip, regexp }) => {
-        info({ ip });
-        expect(ip).toMatch(regexp);
-      });
+    it('strate toMatch prompt', async () => {
+      const [url] = urls;
+      const ip = (await fetch(url)).data;
+      logger.info({ ip, url });
+      expect(ip).toMatch(regexp);
     });
   });
 
@@ -30,17 +28,11 @@ describe('test fetch', () => {
     afterEach(() => {
       process.env = storeEnv;
     });
-    it('toMatch prompt', async () => {
-      await action()
-      .then(({ ip, regexp }) => {
-        info({ ip });
-        expect(ip).toMatch(regexp);
-      })
-      .catch(e => {
-        const { code, message, response: { status, statusText } } = e;
-        info({ status, statusText, code, message });
-        expect(message).toMatch(/^Request failed with status code 502$/);
-      });
+    it('proxy toMatch prompt', async () => {
+      const [url] = urls;
+      const ip = (await fetch(url)).data;
+      logger.info({ ip, url });
+      expect(ip).toMatch(regexp);
     });
   });
 });
