@@ -35,6 +35,11 @@ describe('test fetch', () => {
       .then(({ ip, regexp }) => {
         info({ ip });
         expect(ip).toMatch(regexp);
+      })
+      .catch(e => {
+        const { code, message, response: { status, statusText } } = e;
+        info({ status, statusText, code, message });
+        expect(message).toMatch(/^Request failed with status code 502$/);
       });
     });
   });
