@@ -10,6 +10,12 @@ See: `https://www.npmjs.com/package/axios`
 npm i @jobscale/fetch
 ```
 
+## Jest test
+```
+docker run --rm -p 127.0.0.1:3128:3128 -d ghcr.io/jobscale/squid
+npm test
+```
+
 ## Examples
 
 ```javascript
