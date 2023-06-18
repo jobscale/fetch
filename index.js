@@ -1,4 +1,2 @@
-const axios = require('axios');
-
-module.exports = axios;
-module.exports.fetch = axios;
+module.exports = fetch;
+module.exports.fetch = fetch;
