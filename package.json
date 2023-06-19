@@ -1,6 +1,6 @@
 {
   "name": "@jobscale/fetch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "@jobscale/fetch",
   "keywords": [
     "fetch"
@@ -9,6 +9,11 @@
     "type": "git",
     "url": "git+https://github.com/jobscale/fetch.git"
   },
+  "engines": {
+    "node": ">=18 <31",
+    "npm": ">=8 <20"
+  },
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -27,6 +32,5 @@
     "eslint-plugin-jest": "^27.2.1",
     "jest": "^29.5.0",
     "pre-commit": "^1.2.2"
-  },
-  "license": "MIT"
+  }
 }
