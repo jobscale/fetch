@@ -11,13 +11,13 @@ describe('test fetch', () => {
 
   describe('strate fetch', () => {
     it('strate toMatch prompt', async () => {
-      const ip = (await fetch(urls[0]).then(res => res.text()));
+      const { data: ip } = await fetch(urls[0]);
       logger.info({ ip, url: urls[0] });
       expect(ip).toMatch(regexp);
     });
 
     it('strate toMatch prompt', async () => {
-      const ip = (await fetch(urls[1]).then(res => res.text()));
+      const { data: ip } = await fetch(urls[1]);
       logger.info({ ip, url: urls[1] });
       expect(ip).toMatch(regexp);
     });
@@ -37,13 +37,13 @@ describe('test fetch', () => {
     });
 
     it('proxy toMatch prompt', async () => {
-      const ip = (await fetch(urls[0]).then(res => res.text()));
+      const { data: ip } = await fetch(urls[0]);
       logger.info({ ip, url: urls[0] });
       expect(ip).toMatch(regexp);
     });
 
     it('proxy toMatch prompt', async () => {
-      const ip = (await fetch(urls[1]).then(res => res.text()));
+      const { data: ip } = await fetch(urls[1]);
       logger.info({ ip, url: urls[1] });
       expect(ip).toMatch(regexp);
     });
