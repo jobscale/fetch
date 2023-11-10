@@ -15,34 +15,10 @@ describe('test fetch', () => {
       logger.info({ ip, url: urls[0] });
       expect(ip).toMatch(regexp);
     });
-
-    it('strate toMatch prompt', async () => {
-      const { data: ip } = await fetch(urls[1]);
-      logger.info({ ip, url: urls[1] });
-      expect(ip).toMatch(regexp);
-    });
   });
 
-  // BUG: axios parse proxy NG
-  describe('proxy fetch', () => {
-    const storeEnv = process.env;
-    beforeEach(() => {
-      jest.resetModules();
-      const proxy = 'http://127.0.0.1:3128';
-      process.env = { ...storeEnv, https_proxy: proxy, http_proxy: proxy };
-    });
-
-    afterEach(() => {
-      process.env = storeEnv;
-    });
-
-    it('proxy toMatch prompt', async () => {
-      const { data: ip } = await fetch(urls[0]);
-      logger.info({ ip, url: urls[0] });
-      expect(ip).toMatch(regexp);
-    });
-
-    it('proxy toMatch prompt', async () => {
+  describe('strate fetch', () => {
+    it('strate toMatch prompt', async () => {
       const { data: ip } = await fetch(urls[1]);
       logger.info({ ip, url: urls[1] });
       expect(ip).toMatch(regexp);
