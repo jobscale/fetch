@@ -1,58 +1,22 @@
-const https = require('https');
-const fetch = require('node-fetch');
-const { HttpsProxyAgent } = require('https-proxy-agent');
+import fs from 'fs';
+import { ProxyAgent } from 'undici';
 
-const logger = console;
-
-const hGet = (url, agent) => new Promise((resolve, reject) => {
-  const uri = (typeof url === 'object') ? url.url : url;
-  https.get(uri, { agent }, res => {
-    if (res.statusCode !== 200) {
-      reject(new Error(`Request failed with status code ${res.statusCode}`));
-    }
-    let data = '';
-    res.on('data', (chunk) => { data += chunk; });
-    res.on('end', () => { resolve(data); });
-    res.on('error', (error) => { reject(error); });
-  });
-});
-
-const smartFetch = async (...argv) => {
-  const { env } = process || { env: {} };
-  const proxy = env.https_proxy || env.http_proxy;
-  if (proxy) {
-    const agent = new HttpsProxyAgent(proxy);
-    const [url, options] = argv;
-
-    if (env.NODE_ENV === 'test') {
-      const ip = await hGet(url, agent);
-      logger.info(JSON.stringify({ http: env.NODE_ENV, ip }));
-    }
-
-    if (typeof url === 'object') {
-      Object.assign(url, { agent });
-    } else if (options) {
-      Object.assign(options, { agent });
-    } else {
-      argv.push({ agent });
-    }
-  }
-
-  const parse = res => {
-    const type = res.headers.get('Content-Type');
-    if (type.match('application/json')) return res.json();
-    if (type.match('text/') || type.match('/xml') || type.match('+xml')) return res.text();
-    logger.info(JSON.stringify({ 'Content-Type': type }));
-    return res.blob();
-  };
-
-  return fetch(...argv)
-  .then(res => parse(res).then(data => Object.assign(res, { data })))
-  .catch(e => {
-    logger.error(e);
-    throw e;
-  });
+const proxy = process.env.HTTPS_PROXY || process.env.https_proxy
+|| process.env.HTTP_PROXY || process.env.http_proxy;
+const dispatcher = proxy ? new ProxyAgent(proxy) : undefined;
+const certificate = {
+  cert: fs.readFileSync('client-cert.pem'),
+  key: fs.readFileSync('client-cert.key'),
+  ca: fs.readFileSync('ca-cert.pem'),
 };
 
-module.exports = smartFetch;
-module.exports.fetch = smartFetch;
+class Ocean {
+  async fetch(url, opts = {}, extra = {}) {
+    return fetch(url, {
+      dispatcher, ...opts, ...(extra.useCert ? certificate : {}),
+    });
+  }
+}
+
+const ocean = new Ocean();
+export default ocean.fetch;
