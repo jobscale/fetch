@@ -18,8 +18,10 @@ npm test
 
 ## Examples
 
+- test.js
+
 ```javascript
-const fetch = require('@jobscale/fetch');
+import fetch '@jobscale/fetch';
 
 const logger = console;
 const main = async () => {
@@ -31,6 +33,11 @@ const main = async () => {
     await fetch({ url: 'https://inet-ip.info/json', method: 'post', 'user-agent': 'fetch' }).then(res => res.data),
   ]);
 };
-process.env.https_proxy = 'http://127.0.0.1:3128';
 main();
+```
+
+### run
+
+```
+https_proxy='http://127.0.0.1:3128' node test.js
 ```
