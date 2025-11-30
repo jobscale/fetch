@@ -1,9 +1,14 @@
 import fs from 'fs';
 import { ProxyAgent } from 'undici';
 
-const proxy = process.env.HTTPS_PROXY || process.env.https_proxy
-|| process.env.HTTP_PROXY || process.env.http_proxy;
-const dispatcher = proxy && new ProxyAgent(proxy);
+const operate = {
+  proxy: process.env.HTTPS_PROXY || process.env.https_proxy
+  || process.env.HTTP_PROXY || process.env.http_proxy,
+};
+if (operate.proxy) {
+  if (!operate.proxy.match('://')) operate.proxy = `http://${operate.proxy}`;
+  operate.dispatcher = operate.proxy && new ProxyAgent(operate.proxy);
+}
 const certificate = {
   cert: fs.existsSync('certs/client-cert.pem') && fs.readFileSync('certs/client-cert.pem'),
   key: fs.existsSync('certs/client-cert.key') && fs.readFileSync('certs/client-cert.key'),
@@ -13,7 +18,9 @@ const certificate = {
 class Ocean {
   async fetch(url, opts = {}, extra = {}) {
     return fetch(url, {
-      dispatcher, ...opts, ...(extra.useCert ? certificate : {}),
+      dispatcher: operate.dispatcher,
+      ...opts,
+      ...extra.useCert ? certificate : {},
     });
   }
 }
