@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ProxyAgent } from 'undici';
+import { ProxyAgent, fetch } from 'undici';
 
 const operate = {
   proxy: process.env.HTTPS_PROXY || process.env.https_proxy
