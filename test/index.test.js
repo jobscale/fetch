@@ -8,7 +8,7 @@ describe('test fetch', () => {
     'https://inet-ip.info/ip',
     'https://ipinfo.io/ip',
     'https://api.ipify.org',
-    'https://ipconfig.io',
+    'https://jsx.jp/ip',
   ];
 
   urls.forEach(url => {
